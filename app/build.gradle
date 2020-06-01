@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply from: '../deps.gradle'
+
+android {
+    compileSdkVersion androidDependencies.compile_sdk_version
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.example.gradlepluginissue"
+        minSdkVersion androidDependencies.min_sdk_version
+        targetSdkVersion androidDependencies.target_sdk_version
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures{
+        dataBinding = true
+    }
+    dynamicFeatures = [':module1']
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //android core
+    api deps.core.ktx
+    api deps.kotlin.stdlib
+
+    //appcompat
+    api deps.appcompat.appcompat
+    api deps.appcompat.support_v4
+
+    //design
+    api deps.material.material
+    api deps.constraintLayout.constraintLayout
+
+    //Dagger
+    api deps.dagger.core
+    api deps.dagger.android
+    api deps.dagger.android_support
+    kapt deps.dagger.android_compiler
+    kapt deps.dagger.compiler
+
+    //Navigation
+    api deps.navigation.fragment
+    api deps.navigation.ui
+    api deps.navigation.dynamic
+
+    // Lifecycles
+    api deps.lifecycle.viewmodel
+    api deps.lifecycle.viewmodelext
+
+    //play services - split compat
+    api deps.play.core
+
+    //auto service
+    api deps.autoservice.annotations
+
+    //Google Sign in
+    api deps.google.sso
+
+    //unit test
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+
+    //espresso
+    androidTestImplementation deps.espresso.core
+
+}

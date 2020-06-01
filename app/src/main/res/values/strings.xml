@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GradlePluginIssue</string>
+    <string name="title_module1">Module 1</string>
+</resources>
